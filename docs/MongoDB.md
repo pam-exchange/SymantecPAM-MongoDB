@@ -2,7 +2,7 @@
 Configuring MongoDB (on prem) can be a bit tricky if you want to use TLS for clients connecting to the database.
 Here are some of the details encounted with the setup.
 
-The eovironment used is as follows:
+The environment used is as follows:
 
 - CentOS 9 (with SELINUX)
 - MongoDB, version 8.0.0-1
@@ -48,7 +48,7 @@ chcon system_u:object_r:mongod_var_lib_t:s0 /var/lib/mongo/mongodb*.pem
 ls -lahZ /var/lib/mongo
 ```
 
-## Edit mongod.conf
+## mongod.conf
 
 Edit the MongoDB configuration file `/etc/mongod.conf` to enable TLS.
 Add/edit the net section.
