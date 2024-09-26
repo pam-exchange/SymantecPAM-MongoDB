@@ -68,15 +68,16 @@ Net:
 It is recommended to set `allowConnectionsWithoutCertificates: true`. This means
 that a MongoDB client does not require to present a TLS client side certificate.
 If this is set to false or omitted, then a client must present a TLS Client certificate.
-The client here is the target connector for MongoDB. It runs in Apache Tomcat
-and uses Java. It is possible to specify the TLS client side certificate.
-However, this is done at the JVM level and will be applicable for all connectors
-and not only the MongoDB connector.
+The MongoDB client here is the MongoDB client for Java used in the PAM Target Connector 
+for MongoDB. It runs in Apache Tomcat and uses Java. It is possible to specify 
+the TLS client side certificate. However, this is done at the JVM level and will 
+be applicable for all connectors and not only the MongoDB connector.
 It is recommended to use `allowConnectionsWithoutCertificates: true`
 
 If you absolutely must use TLS client side certificate, you must store the
-client certificate and private key in a Java keystore. When Tomcat is started
-add the `-Djavax.net.ssl.KeyStore` and `-Djavax.net.ssl.keyStorePassword` options.
+client certificate and private key in a Java keystore. Add the parameters 
+`-Djavax.net.ssl.KeyStore` and `-Djavax.net.ssl.keyStorePassword` when starting
+Tomcat. This can be done with the JSSE_OPTS environment variable.
 
 ## Firewall rules
 
