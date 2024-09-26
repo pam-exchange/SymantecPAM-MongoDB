@@ -44,7 +44,7 @@ When starting Tomcat ensure that the truststore file and truststore password are
 The options when starting Tomcat are:
 
 - -Djavax-net.ssl.trustStore=/opt/tomcat/conf/ca-bundle.truststore
-- -Djavax.net.ssl.trustStorePassword=_hidden_
+- -Djavax.net.ssl.trustStorePassword=_password-for-trustStore_
 
 Filename and location of the ca-bundle.truststore can be different.
 Keep in mind that this is a JVM wide setting and will be used by any connector using TLS.
@@ -52,7 +52,7 @@ Keep in mind that this is a JVM wide setting and will be used by any connector u
 - Finally start/restart Tomcat
 
 
-## Setup test users
+## Setup test users in MongoDB
 
 To create some users for testing of the connector, you can run the following
 commands from a MongoDB shell.
@@ -98,7 +98,8 @@ db.logout()
 This is what's needed to test the connector from within PAM.
 There is a master account and a few dependent accounts. The `pamMaster` account is defined in the `admin` database and the dependent users are defined in the `test` database.
 
-## Add pamMaster to PAM
+## Setup test users in PAM
+### Add pamMaster
 
 In the PAM GUI add an application for MongoDB using the `admin` database.
 The password composition policy used is defined without special characters.
@@ -114,7 +115,7 @@ After adding the `pamMaster` account, revisit the account and change the passwor
 to something random decided by PAM.
 
 
-## Add dependent accounts to PAM
+### Add dependent account
 
 In the PAM GUI add an application for MongoDB using the `test` database.
 
