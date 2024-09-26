@@ -23,8 +23,8 @@ and adjust the message numbers to to match your environment.
 It is important that the numbers does not conflict with any other numbers from other connectors.
 - Run the command `mvnw package` to compile the connector.
 - Copy the target connector `mongodb.war` to the Tomcat `webapps_targetconnector` directory.
-- It is recommended to enable logging of the connector add the following to the
-Tomcat `logging.properties` file
+- It is recommended to enable logging from the connector by adding the following to the
+Tomcat `logging.properties` file.
 
 ```
 #
@@ -34,14 +34,15 @@ ch.pam_exchange.pam_tc.mongodb.api.level = FINE
 ch.pam_exchange.pam_tc.mongodb.api.handlers= java.util.logging.ConsoleHandler
 ```
 
-It is recommended to use a TLS connection from the Tomcat TCF to the MongoDB.
+It is recommended to use a TLS connection from the Tomcat TCF to the MongoDB server.
 For this to work there are a few steps to be completet too.
 
-- Create a Java truststore with the RootCA and SigningCA certificates.
-These are the same as used when configuring MongoDB. However, they must be
-stored in a Java TrustStore file.
-When starting Tomcat ensure that the truststore file and truststore password are used.
-The options when starting Tomcat are:
+- Create a Java truststore with the RootCA and SigningCA certificates used when the
+certificate for the MongoDB server is signed. These are the same as used when
+configuring MongoDB. However, they must be stored in a Java TrustStore file.
+When starting Tomcat ensure that the truststore file and truststore password are
+used by the JVM. This can be done by defining the JSSE_OPTS environment variable or
+by editing the startup command directly. The options required when starting Tomcat are:
 
 - -Djavax-net.ssl.trustStore=/opt/tomcat/conf/ca-bundle.truststore
 - -Djavax.net.ssl.trustStorePassword=_password-for-trustStore_
@@ -68,7 +69,7 @@ db.createUser({user: "pamMaster",pwd: "Admin4cspm!",roles:[{role: "userAdminAnyD
 db.logout()
 ```
 
-In the example both users `super` and `pamMaster` are created in the database `admin`.
+In the example both users `super` and `pamMaster` are created in the database `admin`. 
 From within PAM, only the user `pamMaster` is required and will change its password.
 
 ### Create some dependent accounts
@@ -86,7 +87,6 @@ db.dropUser("adm2")
 db.dropUser("adm3")
 db.dropRole("testChangeOwnPasswordRole")
 db.createRole({ role: "testChangeOwnPasswordRole",privileges: [{resource: { db: "test", collection: ""},actions: [ "changeOwnPassword" ]}],roles: []})
-
 db.createUser({user: "adm1",pwd: "Admin4cspm!",roles:["readWrite", { role:"testChangeOwnPasswordRole", db:"test" }]})
 db.createUser({user: "adm2",pwd: "Admin4cspm!",roles:["readWrite", { role:"testChangeOwnPasswordRole", db:"test" }]})
 db.createUser({user: "adm3",pwd: "Admin4cspm!",roles:["readWrite", { role:"testChangeOwnPasswordRole", db:"test" }]})
@@ -95,13 +95,17 @@ use admin
 db.logout()
 ```
 
+The role for the dependent users is set to allow change own password. This is not strictly required as the setup 
+is envisioned to use a master account to change passwords.
+
 This is what's needed to test the connector from within PAM.
 There is a master account and a few dependent accounts. The `pamMaster` account is defined in the `admin` database and the dependent users are defined in the `test` database.
 
 ## Setup test users in PAM
 ### Add pamMaster
 
-In the PAM GUI add an application for MongoDB using the `admin` database.
+In the PAM GUI add an application for MongoDB using the `admin` database. This can also be done
+using the API/CLI for PAM. 
 The password composition policy used is defined without special characters.
 
 ![MongoDB Application for admin database](/docs/MongoDB-Application-admin.png)
@@ -111,9 +115,10 @@ Add the account for the `pamMaster` user. The current password must be known for
 ![MongoDB Account for pamMaster](/docs/MongoDB-Account-pamMaster-1.png)
 ![MongoDB Account for pamMaster](/docs/MongoDB-Account-pamMaster-2.png)
 
+Remember to set the account to update both PAM and target in the Password tab.
+
 After adding the `pamMaster` account, revisit the account and change the password
 to something random decided by PAM.
-
 
 ### Add dependent account
 
@@ -126,10 +131,13 @@ Add the account for the `adm1` user. Generate a new password for this account.
 ![MongoDB Account for pamMaster](/docs/MongoDB-Account-adm1-1.png)
 ![MongoDB Account for pamMaster](/docs/MongoDB-Account-adm1-2.png)
 
+Remember to set the account to update both PAM and target in the Password tab. 
+
 In the GUI you will see the account name for the master account. Be sure to
 select the correct master account created for the correct MongoDB instance.
 
-If everything goes as planned, there are now two accounts defined and synchronized.
+If everything goes as planned, there are now two accounts defined, synchronized and  
+both having a random password.
 
 ![MongoDB Account for pamMaster](/docs/MongoDB-Accounts.png)
 
