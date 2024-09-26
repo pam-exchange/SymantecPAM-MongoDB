@@ -44,7 +44,7 @@ When starting Tomcat ensure that the truststore file and truststore password are
 The options when starting Tomcat are:
 
 - -Djavax-net.ssl.trustStore=/opt/tomcat/conf/ca-bundle.truststore
-- -Djavax.net.ssl.trustStorePassword=<hidden>
+- -Djavax.net.ssl.trustStorePassword=_hidden_
 
 Filename and location of the ca-bundle.truststore can be different.
 Keep in mind that this is a JVM wide setting and will be used by any connector using TLS.
