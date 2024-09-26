@@ -16,7 +16,7 @@ The environment used is as follows:
 
 Installation and setup for MongoDB is found [here](/docs/MongoDB.md).
 
-- Download the sources from GitHub
+- Download the project sources from GitHub.
 - Add the `capamextensioncore.jar` from Symantec PAM as part of local Maven repository.
 - Edit the files `mongodb_messages.properties` and `MongoDBMessageConstants.java`
 and adjust the message numbers to to match your environment.
