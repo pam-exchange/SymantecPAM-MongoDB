@@ -108,7 +108,8 @@ In the PAM GUI add an application for MongoDB using the `admin` database. This c
 using the API/CLI for PAM. 
 The password composition policy used is defined without special characters.
 
-![MongoDB Application for admin database](/docs/MongoDB-Application-admin.png)
+![MongoDB Application for admin database](/docs/MongoDB-Application-admin-1.png)
+![MongoDB Application for admin database](/docs/MongoDB-Application-admin-2.png)
 
 Add the account for the `pamMaster` user. The current password must be known for this account.
 
@@ -124,7 +125,8 @@ to something random decided by PAM.
 
 In the PAM GUI add an application for MongoDB using the `test` database.
 
-![MongoDB Application for test database](/docs/MongoDB-Application-test.png)
+![MongoDB Application for test database](/docs/MongoDB-Application-test-1.png)
+![MongoDB Application for test database](/docs/MongoDB-Application-test-2.png)
 
 Add the account for the `adm1` user. Generate a new password for this account.
 
