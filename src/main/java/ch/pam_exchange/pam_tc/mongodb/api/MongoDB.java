@@ -43,11 +43,6 @@ public class MongoDB {
 	private static final long DEFAULT_READ_TIMEOUT = 2000;
 	private static final String CHANGE_OTHER = "other";
 
-//	private static final String PROPERTY_FILE = "extensions.properties";
-//	private static final String PROPERTY_CLIENT_TLS = "mongodb.useClientTLS";
-//	private static final String PROPERTY_CLIENT_KEYSTORE_FILE = "mongodb.clientKeystore.file";
-//	private static final String PROPERTY_CLIENT_KEYSTORE_PWD= "mongodb.clientKeystore.password";
-
 	/**
 	 * Instance variables used in the processCredentialsVerify and
 	 * processCredentialsUpdate
@@ -76,49 +71,6 @@ public class MongoDB {
 	 */
 	public MongoDB(TargetAccount targetAccount) {
 
-		/*
-		 * TLS client certificate/key from connector property file
-		 */
-/*
-		String mongodbPropertyFile;
-		mongodbPropertyFile = "/"+MongoDB.class.getProtectionDomain().getCodeSource().getLocation().toString()
-				.replace("file:/", "") + PROPERTY_FILE;
-		LOGGER.fine(LoggerWrapper.logMessage("mongodb property file [" + mongodbPropertyFile + "]"));
-		
-		Properties prop = new Properties();
-		try {
-			prop.load(new FileInputStream(mongodbPropertyFile));
-
-			this.useClientTLS= "true".contentEquals(prop.getProperty(PROPERTY_CLIENT_TLS));
-			LOGGER.fine(LoggerWrapper.logMessage("Property " + PROPERTY_CLIENT_TLS + "= " + useClientTLS));
-			if (this.useClientTLS) {
-				// client keystore file
-				this.clientKeystoreFile = prop.getProperty(PROPERTY_CLIENT_KEYSTORE_FILE);
-				if (this.clientKeystoreFile == null) {
-					LOGGER.fine(LoggerWrapper.logMessage("Property " + PROPERTY_CLIENT_KEYSTORE_FILE + " is null or not found --> disable useClientTLS"));
-					this.useClientTLS= false;
-				}
-				else {
-					LOGGER.fine(LoggerWrapper.logMessage("Property " + PROPERTY_CLIENT_KEYSTORE_FILE + "= " + this.clientKeystoreFile));
-
-					// is there a password set for the keystore
-					this.clientKeystorePassword= prop.getProperty(PROPERTY_CLIENT_KEYSTORE_PWD);
-					if (this.clientKeystorePassword == null) {
-						LOGGER.fine(LoggerWrapper.logMessage("Property " + PROPERTY_CLIENT_KEYSTORE_PWD + " is null or not found, assume no password for keystore is required"));
-					}
-					else {
-						LOGGER.fine(LoggerWrapper.logMessage("Property " + PROPERTY_CLIENT_KEYSTORE_PWD + "= <hidden>"));
-					}
-				}
-			}
-
-		}
-		catch (Exception e) {
-			LOGGER.severe(LoggerWrapper.logMessage("Cannot load perperties from '" + mongodbPropertyFile + "'"));
-			LOGGER.log(Level.SEVERE, LoggerWrapper.logMessage("Extension Exception"), e);
-		}
-*/
-		
 		/*
 		 * Server attributes
 		 */
@@ -353,25 +305,6 @@ public class MongoDB {
 	 */
 	private MongoClient createMongoClient(MongoCredential cred) {
 
-/*
-		ClusterSettings clusterSettings = ClusterSettings.builder()
-				.serverSelectionTimeout(this.connectTimeout, TimeUnit.MILLISECONDS) // This one controls the connection timeout
-				.hosts(Arrays.asList(new ServerAddress(this.hostname, this.port))).build();
-
-		SocketSettings socketSettings = SocketSettings.builder()
-				.connectTimeout((int) ((this.connectTimeout / 1000) > 1 ? this.connectTimeout / 1000 : 1), TimeUnit.SECONDS)
-				.readTimeout((int) ((this.readTimeout / 1000) > 1 ? this.readTimeout / 1000 : 1), TimeUnit.SECONDS).build();
-
-		SslSettings sslSettings = SslSettings.builder().invalidHostNameAllowed(true).enabled(this.useTLS).build();
-
-		MongoClientSettings clientSettings = MongoClientSettings.builder()
-				.applyToClusterSettings(builder -> builder.applySettings(clusterSettings))
-				// .applyToConnectionPoolSettings(builder ->
-				// builder.applySettings(connectionPoolSettings))
-				.applyToSocketSettings(builder -> builder.applySettings(socketSettings))
-				.applyToSslSettings(builder -> builder.applySettings(sslSettings)).credential(cred).build();
-*/		
-
  		String uri= "mongodb://"+this.hostname+":"+this.port+"/";
  
 		uri+= "?connectTimeoutMS=" + this.connectTimeout;
@@ -379,13 +312,6 @@ public class MongoDB {
 		if (this.useTLS) {
 			uri+= "&tls=true";
 			uri+= "&tlsAllowInvalidHostnames=true";
-
-//			if (this.useClientTLS) {
-//				uri+= "&tlsCertificateKeyFile="+this.clientKeystoreFile;
-//				if (this.clientKeystorePassword != null) {
-//					uri+= "&tlsCertificateKeyFilePassword="+this.clientKeystorePassword;
-//				}
-//			}
 		}
 		String str = uri.replaceAll("(&tlsCertificateKeyFilePassword)=(.*)$", "$1=<hidden>");
 		LOGGER.fine(LoggerWrapper.logMessage("connectString= " + str));
