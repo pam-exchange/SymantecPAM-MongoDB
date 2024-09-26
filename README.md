@@ -136,8 +136,7 @@ Remember to set the account to update both PAM and target in the Password tab.
 In the GUI you will see the account name for the master account. Be sure to
 select the correct master account created for the correct MongoDB instance.
 
-If everything goes as planned, there are now two accounts defined, synchronized and  
-both having a random password.
+If everything goes as planned, there are now two accounts defined, synchronized and both having a random password.
 
 ![MongoDB Account for pamMaster](/docs/MongoDB-Accounts.png)
 
