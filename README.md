@@ -2,7 +2,7 @@
 Symantec PAM Target Connector for MongoDB
 
 The connector will allow password verify and update for users defined in a MongoDB database.
-The eovironment used is as follows:
+The environment used is as follows:
 
 - CentOS 9 (with SELINUX)
 - Java JDK, version 17.0.12
